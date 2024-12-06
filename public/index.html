@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Eventos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Gestión de Eventos</h1>
+
+    <!-- Formulario -->
+    <form id="eventForm">
+      <h2>Crear/Editar Evento</h2>
+      <input type="hidden" id="eventId" value="">
+      <label for="Titulo">Título:</label>
+      <input type="text" id="Titulo" placeholder="Título del evento" required>
+      <label for="Descripcion">Descripción:</label>
+      <textarea id="Descripcion" placeholder="Descripción del evento" required></textarea>
+      <label for="FechaInicio">Fecha de Inicio:</label>
+      <input type="date" id="FechaInicio" required>
+      <label for="FechaFinal">Fecha de Finalización:</label>
+      <input type="date" id="FechaFinal" required>
+      <label for="Filial">Filial:</label>
+      <input type="text" id="Filial" placeholder="Filial del evento" required>
+      <button type="submit">Guardar Evento</button>
+    </form>
+
+    <!-- Lista de Eventos -->
+    <div class="event-list">
+      <h2>Lista de Eventos</h2>
+      <ul id="events"></ul>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
