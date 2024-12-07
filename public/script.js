@@ -19,7 +19,12 @@ const renderEvents = () => {
         <strong>${event.Titulo}</strong><br>
         ${event.Descripcion}<br>
         Fecha: ${event.FechaInicio} - ${event.FechaFinal}<br>
-        Filial: ${event.Filial}
+        Filial: ${event.Filial}<br>
+        ${
+          event.imagen
+            ? `<img src="${event.imagen}" alt="Imagen del evento" style="max-width: 200px;">`
+            : ""
+        }
       </div>
       <div>
         <button class="edit" onclick="editEvent(${event.id})">Editar</button>
@@ -30,29 +35,6 @@ const renderEvents = () => {
   });
 };
 
-const createEvent = async (eventData) => {
-  await fetch("/events", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(eventData),
-  });
-  fetchEvents();
-};
-
-const updateEvent = async (id, eventData) => {
-  await fetch(`/events/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(eventData),
-  });
-  fetchEvents();
-};
-
-const deleteEvent = async (id) => {
-  await fetch(`/events/${id}`, { method: "DELETE" });
-  fetchEvents();
-};
-
 eventForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -61,17 +43,33 @@ eventForm.addEventListener("submit", async (e) => {
   const FechaInicio = document.getElementById("FechaInicio").value;
   const FechaFinal = document.getElementById("FechaFinal").value;
   const Filial = document.getElementById("Filial").value;
+  const imagen = document.getElementById("Imagen").files[0];
 
-  const eventData = { Titulo, Descripcion, FechaInicio, FechaFinal, Filial };
+  const formData = new FormData();
+  formData.append("Titulo", Titulo);
+  formData.append("Descripcion", Descripcion);
+  formData.append("FechaInicio", FechaInicio);
+  formData.append("FechaFinal", FechaFinal);
+  formData.append("Filial", Filial);
+  if (imagen) {
+    formData.append("imagen", imagen);
+  }
 
   if (editingId) {
-    await updateEvent(editingId, eventData);
+    await fetch(`/events/${editingId}`, {
+      method: "PUT",
+      body: formData,
+    });
     editingId = null;
   } else {
-    await createEvent(eventData);
+    await fetch("/events", {
+      method: "POST",
+      body: formData,
+    });
   }
 
   eventForm.reset();
+  fetchEvents();
 });
 
 const editEvent = (id) => {
@@ -84,6 +82,11 @@ const editEvent = (id) => {
     document.getElementById("FechaFinal").value = event.FechaFinal;
     document.getElementById("Filial").value = event.Filial;
   }
+};
+
+const deleteEvent = async (id) => {
+  await fetch(`/events/${id}`, { method: "DELETE" });
+  fetchEvents();
 };
 
 fetchEvents();

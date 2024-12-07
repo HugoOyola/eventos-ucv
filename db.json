@@ -1,12 +1,3 @@
 {
-  "events": [
-    {
-      "id": 1733525897583,
-      "Titulo": "\"Luis Pardo\" en el Festival de Cine Silente de Pordenone, Italia",
-      "Descripcion": "Prueba de noticia",
-      "FechaInicio": "2024-12-25",
-      "FechaFinal": "2025-01-01",
-      "Filial": "Chiclayo"
-    }
-  ]
+  "events": []
 }
